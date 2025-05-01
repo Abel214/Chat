@@ -11,31 +11,36 @@ def analizar_entrada(texto):
     lineas = texto.strip().split('\n')
     resultado = ""
 
-    # Verificar si hay suficientes líneas
-    if len(lineas) < 3:
-        return "Error: Falta información. Se necesitan al menos 3 líneas."
+    # Verificar si hay al menos 1 línea
+    if len(lineas) < 1:
+        return "Error: No se ingresó texto."
 
-    # Primera línea - saludo (puede ser cualquiera de palabras_reservadas_Saludo)
-    primera_linea = lineas[0].strip()
-    if primera_linea in palabras_reservadas_Saludo:
-        resultado += f"Saludo '{primera_linea}' reconocido correctamente.\n"
-    else:
-        resultado += f"Error: La primera línea debe ser un saludo válido: {', '.join(palabras_reservadas_Saludo)}.\n"
+    # Analizar cada línea del texto
+    for idx, linea in enumerate(lineas, 1):
+        linea = linea.strip()
 
-    # Segunda línea - análisis de oración (estructura sujeto + verbo + complemento)
-    segunda_linea = lineas[1].strip()
-    estructura = analizar_estructura_oracion(segunda_linea)
-    resultado += f"Análisis de la oración: {estructura}\n"
+        # Analizar saludo (debe estar en la primera línea si se encuentra)
+        if idx == 1:
+            if linea in palabras_reservadas_Saludo:
+                resultado += f"Saludo '{linea}' reconocido correctamente.\n"
+            else:
+                resultado += f"Error en la línea {idx}: La primera línea debe ser un saludo válido: {', '.join(palabras_reservadas_Saludo)}.\n"
 
-    # Tercera línea - despedida (puede ser cualquiera de palabras_reservadas_Despedida)
-    if len(lineas) >= 3:
-        tercera_linea = lineas[2].strip()
-        if tercera_linea in palabras_reservadas_Despedida:
-            resultado += f"Despedida '{tercera_linea}' reconocida correctamente."
+        # Analizar oración (Sujeto + Verbo + Complemento)
+        elif idx == 2:
+            estructura = analizar_estructura_oracion(linea)
+            resultado += f"Análisis de la oración en la línea {idx}: {estructura}\n"
+
+        # Analizar despedida (debe estar en la última línea si se encuentra)
+        elif idx == len(lineas):
+            if linea in palabras_reservadas_Despedida:
+                resultado += f"Despedida '{linea}' reconocida correctamente.\n"
+            else:
+                resultado += f"Error en la línea {idx}: La última línea debe ser una despedida válida: {', '.join(palabras_reservadas_Despedida)}.\n"
+
+        # Otras líneas
         else:
-            resultado += f"Error: La última línea debe ser una despedida válida: {', '.join(palabras_reservadas_Despedida)}."
-    else:
-        resultado += "Error: Falta la línea de despedida."
+            resultado += f"Línea {idx}: Contenido adicional - '{linea}'\n"
 
     return resultado
 
@@ -166,4 +171,3 @@ def abrir_editor_codigo():
 
     # Ejecutar análisis inicial si hay texto predeterminado
     editor.after(100, analizar_texto_automatico)
-
