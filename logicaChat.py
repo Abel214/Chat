@@ -50,39 +50,31 @@ def analizar_entrada(texto):
         resultado += "\n✗ Error: No hay oración principal entre el saludo y la despedida.\n"
 
     return resultado
-
 def analizar_estructura_oracion(oracion):
-    # Eliminar puntuación final
     oracion = oracion.strip().rstrip(',.;:!?')
-
-    # Dividir en palabras
     palabras = oracion.split()
 
     if len(palabras) < 3:
         return "✗ No cumple con la estructura Sujeto + Verbo + Complemento (muy corta)"
-    sujeto = palabras[0]
-    verbo_pos = 1
-    verbo = palabras[verbo_pos]
 
-    # Patrones verbales para identificar el verbo
-    patron_verbo = r'.*[aei]r$|.*[aeiáéíóú][^aeiáéíóú]*$'
+    patron_verbo = r'.*(ar|er|ir|[óéí])$'
 
-    # Si la segunda palabra no parece un verbo, buscar la siguiente
-    if not re.match(patron_verbo, verbo.lower()):
-        for i in range(2, min(4, len(palabras))):
-            if re.match(patron_verbo, palabras[i].lower()):
-                verbo_pos = i
-                verbo = palabras[i]
-                sujeto = " ".join(palabras[:i])
+    for i in range(len(palabras)):
+        if re.match(patron_verbo, palabras[i].lower()):
+            sujeto = " ".join(palabras[:i])
+            verbo = palabras[i]
+            complemento = " ".join(palabras[i + 1:]) if i + 1 < len(palabras) else ""
+            if sujeto and verbo:
+                if complemento:
+                    return f"✓ Estructura S+V+P detectada\n   Sujeto: {sujeto}\n   Verbo: {verbo}\n   Complemento: {complemento}"
+                else:
+                    return f"✓ Estructura S+V detectada (sin complemento)\n   Sujeto: {sujeto}\n   Verbo: {verbo}"
+            else:
                 break
 
-    # El complemento es cualquier oración después del verbo
-    if verbo_pos < len(palabras) - 1:
-        complemento = " ".join(palabras[verbo_pos + 1:])
+    return "✗ No se detectó un verbo válido"
 
-        return f"✓ Estructura S+V+P detectada\n   Sujeto: {sujeto}\n   Verbo: {verbo}\n   Complemento: {complemento}"
-    else:
-        return f"✓ Estructura S+V detectada (sin complemento)\n   Sujeto: {sujeto}\n   Verbo: {verbo}"
+
 
 # Función para resaltar palabras clave
 def resaltar_palabras(text_widget):
