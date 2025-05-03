@@ -6,7 +6,7 @@ from logicaChat import palabras_reservadas_Saludo, palabras_reservadas_Despedida
 # Función principal para crear la interfaz gráfica
 def crear_automata_interfaz():
     ventana = tk.Tk()
-    ventana.title("Autómata de Reconocimiento de Mensajes")
+    ventana.title("Autómata Mensaje De Texto")
     ancho = 800
     alto = 600
     ancho_pantalla = ventana.winfo_screenwidth()
@@ -20,7 +20,7 @@ def crear_automata_interfaz():
     # Título
     titulo = tk.Label(
         frame_encabezado,
-        text="Autómata de Reconocimiento de Mensajes",
+        text="Autómata Mensaje De Texto",
         font=("Arial", 16, "bold"),
         bg="#2b2b2b",
         fg="white"
@@ -42,18 +42,6 @@ def crear_automata_interfaz():
         justify="left"
     )
     instrucciones.pack(anchor="w", pady=(5, 0))
-
-    # Crear marco para palabras clave
-    frame_palabras = tk.Frame(ventana, bg="#2b2b2b")
-    frame_palabras.pack(fill="x", padx=10, pady=(5, 10))
-    tk.Label(
-        frame_palabras,
-        text=", ".join(sorted(palabras_reservadas_Despedida)),
-        font=("Arial", 10),
-        bg="#2b2b2b",
-        fg="#AAAAAA"
-    ).pack(side="left", padx=(5, 0))
-
     # Crear paneles para entrada y resultado
     panel = tk.PanedWindow(ventana, orient=tk.VERTICAL, bg="#1e1e1e", sashwidth=8)
     panel.pack(fill="both", expand=True, padx=10, pady=10)

@@ -1,11 +1,10 @@
 import tkinter as tk
 import re
 palabras_reservadas_Saludo = {
-    "Hola", "Que tal", "Buenos días", "Buenas tardes", "Buenas noches",
-    "Buen día", "Buenos dias", "Buen dia"
+    "Hola", "Que tal", "Buenos días", "Buenas tardes", "Buenas noches"
 }
 palabras_reservadas_Despedida = {
-    "Hasta luego", "Adios", "Hasta pronto", "Nos vemos", "Chao", "Adiós"
+    "Hasta luego", "Adios", "Hasta pronto", "Nos vemos", "Chao"
 }
 # Función para limpiar texto de puntuación al verificar palabras clave
 def limpiar_texto(texto):
