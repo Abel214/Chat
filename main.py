@@ -1,7 +1,7 @@
-import interfaz
+import interfazMenu
 
 def main():
-    interfaz.crear_interfaz()
+    interfazMenu.crear_interfaz()
 
 
 if __name__ == "__main__":
